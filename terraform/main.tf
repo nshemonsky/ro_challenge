@@ -28,7 +28,8 @@ module "web_server_sg" {
 
   ingress_cidr_blocks = ["0.0.0.0/0"]
   ingress_rules       = ["ssh-tcp","http-80-tcp"]
-  egress_cidr_blocks  = []
+  egress_cidr_blocks  = ["0.0.0.0/0"]
+  egress_rules        = ["all-all"]
 }
 
 resource "aws_instance" "web_server" {
@@ -43,16 +44,19 @@ resource "aws_instance" "web_server" {
 
   provisioner "remote-exec" {
     inline = [
+      "sudo yum install -y git",
       "cd /tmp && /usr/bin/git clone https://github.com/nshemonsky/ro_challenge.git",
+      "sudo rpm -Uvh https://packages.chef.io/files/stable/chefdk/2.4.17/el/7/chefdk-2.4.17-1.el7.x86_64.rpm",
+      "eval \"$(chef shell-init bash)\"",
       "cd /tmp/ro_challenge",
-      "sudo rpm -Uvh https://packages.chef.io/files/stable/chef/13.7.16/el/7/chef-13.7.16-1.el7.x86_64.rpm",
-      "chef-client -z -o flask_app | tee /tmp/chef_bootstrap.log"
+      "berks vendor cookbooks/ -b cookbooks/flask_app/Berksfile",
+      "sudo chef-client -z -o flask_app | tee /tmp/chef_bootstrap.log"
     ]
 
     connection {
       private_key = "${file(var.key_path)}"
-      agent = "false"
-      user = "ec2-user"
+      agent       = "false"
+      user        = "ec2-user"
     }
   }
 }

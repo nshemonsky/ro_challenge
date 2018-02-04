@@ -7,7 +7,7 @@ version          '0.1.0'
 chef_version     '> 0.0.0'
 
 %w[application_git application_python nginx
-  poise-build-essential].each { |cb| depends cb }
+   poise-build-essential poise-python].each { |cb| depends cb }
 
 %w[amazon centos oracle redhat].each { |os| supports os }
 

@@ -9,19 +9,23 @@ server with Nginx as the front end.
 * [application_python](https://github.com/poise/application_python)
 * [nginx](https://github.com/chef-cookbooks/nginx)
 * [poise-build-essential](https://github.com/poise/poise-build-essential)
+* [poise-python](https://github.com/poise/poise-python)
+
+## Other Dependencies
+
+The app deployed is located at https://github.com/nshemonsky/demo_flask_app.git.
+If this repo is unavailable, deployment of the app will fail.
 
 ## Platform Support
 
-Tested and working on Amazon Linux. As such, RHEL family distributions should
-be expected to work but no guarantees!
+* Amazon Linux
 
 ## Usage
 
-The `flask_app::default` recipe should be called in a role or wrapper cookbook to use this cookbook.
+Call the `flask_app::default` recipe.
 
 ## Testing
 This cookbook includes linting and automated testing using:
 
 * [Rubocop](http://batsov.com/rubocop/)
 * [Foodcritic](http://acrmp.github.io/foodcritic/)
-* [ChefSpec](http://code.sethvargo.com/chefspec/)
