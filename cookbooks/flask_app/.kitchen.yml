@@ -1,0 +1,36 @@
+---
+driver:
+  name: ec2
+  aws_ssh_key_id: chef-test-kitchen
+  region: us-east-1
+  availability_zone: a
+  require_chef_omnibus: true
+  subnet_id: subnet-e5df18cf
+  security_group_ids: ["sg-4f231136", "sg-f8101280"]
+  instance_type: t2.medium
+  interface: private
+  associate_public_ip: true
+  iam_profile_name: simple-server
+  tags:
+    cookbook: flask_app
+    created-by: test-kitchen
+
+transport:
+  ssh_key: <%= ENV['ssh_key_path'] %>/chef-test-kitchen.pem
+  connection_timeout: 10
+  connection_retries: 5
+  username: ec2-user
+
+provisioner:
+  name: chef_zero
+
+platforms:
+  - name: amazon
+    driver:
+      image_id: ami-97785bed
+
+suites:
+  - name: default
+    run_list:
+      - recipe[flask_app::default]
+    attributes:

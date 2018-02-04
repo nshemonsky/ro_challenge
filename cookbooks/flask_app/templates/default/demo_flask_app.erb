@@ -1,0 +1,12 @@
+server {
+  listen        *:80 default_server;
+  server_name   <%= node['ec2']['public_ipv4'] %>;
+
+  access_log    <%= node['nginx']['log_dir'] %>/demo_flask_app.access.log;
+  error_log     <%= node['nginx']['log_dir'] %>/demo_flask_app.error.log;
+
+  location / {
+      include uwsgi_params;
+      proxy_pass http://unix:/opt/demo_flask_app/app.sock;
+  }
+}

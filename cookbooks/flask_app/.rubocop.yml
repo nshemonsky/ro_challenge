@@ -1,0 +1,16 @@
+AllCops:
+  Exclude:
+    - '.kitchen/**/*'
+    - 'test/**/*'
+
+Layout/EmptyLinesAroundBlockBody:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/LineLength:
+  Enabled: false
+
+Style/NumericLiterals:
+  Enabled: false
